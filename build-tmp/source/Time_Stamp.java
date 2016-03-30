@@ -46,14 +46,16 @@ ArrayList<ScoreNote> played_note;//pitchbend\u3067\u5f97\u305f\u3069\u306e\u7a0b
 //\u6642\u523b
 boolean flag = false;
 
-//txt\u30d5\u30a1\u30a4\u30eb\u51fa\u529b\u306b\u5fc5\u8981\u306a\u914d\u5217
+
 ArrayList<String> note_number = new ArrayList<String>();
 ArrayList<String> now_number = new ArrayList<String>();
 ArrayList<String> count = new ArrayList<String>();
 ArrayList<String> note_velocity = new ArrayList<String>();
 ArrayList<String> result = new ArrayList<String>();
+
+//txt\u30d5\u30a1\u30a4\u30eb\u51fa\u529b\u306b\u5fc5\u8981\u306a\u914d\u5217
 float mill;
-int note_num;
+
 public void setup() {
 //\u753b\u9762
   // \u753b\u9762\u30b5\u30a4\u30ba\u3092\u6c7a\u5b9a
@@ -166,8 +168,6 @@ if(((int)(data[0] & 0xFF) >= 143)&&((int)(data[0] & 0xFF) <= 150)) {
 if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
     println();
     flag = true;
-    note_num = (int)(data[1] & 0xFF);
-
     if(flag == true){
     note_number.add(Integer.toString((note[note_y][note_x].pointer()).MidiValue()));
     now_number.add(Integer.toString((int)(data[1] & 0xFF)));
@@ -230,6 +230,7 @@ class ScoreNote {
   private int judge;
   private Pointer pointer;
   private ArrayList<Integer> played_note = new ArrayList();
+
 
  ScoreNote(int x, int judge, Pointer pointer){
  	this.x = x;
@@ -300,6 +301,7 @@ class ScoreNote {
   public int getNote(int m) {
     return this.played_note.get(m);
   }
+
 }
   public void settings() {  fullScreen(P2D); }
   static public void main(String[] passedArgs) {

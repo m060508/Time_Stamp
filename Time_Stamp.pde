@@ -25,12 +25,14 @@ ArrayList<ScoreNote> played_note;//pitchbendで得たどの程度ずれている
 //時刻
 boolean flag = false;
 
-//txtファイル出力に必要な配列
+
 ArrayList<String> note_number = new ArrayList<String>();
 ArrayList<String> now_number = new ArrayList<String>();
 ArrayList<String> count = new ArrayList<String>();
 ArrayList<String> note_velocity = new ArrayList<String>();
 ArrayList<String> result = new ArrayList<String>();
+
+//txtファイル出力に必要な配列
 float mill;
 
 void setup() {

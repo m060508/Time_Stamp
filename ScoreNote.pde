@@ -4,6 +4,7 @@ class ScoreNote {
   private Pointer pointer;
   private ArrayList<Integer> played_note = new ArrayList();
 
+
  ScoreNote(int x, int judge, Pointer pointer){
  	this.x = x;
  	this.judge = judge;
@@ -73,4 +74,5 @@ class ScoreNote {
   public int getNote(int m) {
     return this.played_note.get(m);
   }
+
 }
