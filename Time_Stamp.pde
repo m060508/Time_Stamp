@@ -25,9 +25,13 @@ ArrayList<ScoreNote> played_note;//pitchbendで得たどの程度ずれている
 //時刻
 boolean flag = false;
 
-//現在弾いた音の番号
-int note_number;
-
+//txtファイル出力に必要な配列
+ArrayList<String> note_number = new ArrayList<String>();
+ArrayList<String> now_number = new ArrayList<String>();
+ArrayList<String> count = new ArrayList<String>();
+ArrayList<String> result = new ArrayList<String>();
+float mill;
+int note_num;
 void setup() {
 //画面
  fullScreen(P2D); // 画面サイズを決定
@@ -103,15 +107,13 @@ void setup() {
     myBus.sendMessage(message);
   } catch(Exception e) {
   }
+ 
 }
 
 void draw(){
  background(0);
-float mill = millis(); 
-if(flag == true){
-println("next_note"+(note[note_y][note_x].pointer()).MidiValue()+"note_number:"+note_number+"count"+mill);
-flag = false;
- }
+ mill = millis(); 
+
 /*
 note on/off 演奏位置    ユーザが入力した音番号       音番号を音名に変換         ベロシティ     譜面上の正解音名            データが出力された時刻
 ON      1    67                                            G5                          72                     C5                               10:32:52:0675
@@ -138,9 +140,15 @@ if (((int)(data[0] & 0xFF) >= 144)&&((int)(data[0] & 0xFF) <= 171)) {
 if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
     println();
     flag = true;
-    note_number = (int)(data[1] & 0xFF);
+    note_num = (int)(data[1] & 0xFF);
+    if(flag == true){
+    note_number.add(Integer.toString((note[note_y][note_x].pointer()).MidiValue()));
+    now_number.add(Integer.toString(note_num));
+    count.add(""+mill);
+    flag = false;
+ }
  if ((int)(data[1] & 0xFF)!=(note[note_y][note_x].pointer()).MidiValue()) {
-    note[note_y][note_x].judge = 1;      
+    note[note_y][note_x].judge = 1;    
     }
     if ((int)(data[1] & 0xFF)==(note[note_y][note_x].pointer()).MidiValue()) {
       note_x++;
@@ -149,9 +157,22 @@ if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
         note_y++;
         note_x=0;
         if (note_y>3) {
+         
           note_y=0;
         }
       }
     }
   }
 }
+
+void keyPressed() {
+	if (key == 's' || key=='S') {	
+	//txtファイル用
+  //それぞれの行に文字列をファイルへ書き込む。
+  for(int i = 0; i < count.size() ; i++){
+	result.add(note_number.get(i) + "," + now_number.get(i) + "," + count.get(i));
+}
+  saveStrings("processing_data.txt", (String[])result.toArray(new String[result.size()-1])); 
+}
+}
+

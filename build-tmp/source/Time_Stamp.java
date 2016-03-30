@@ -46,9 +46,13 @@ ArrayList<ScoreNote> played_note;//pitchbend\u3067\u5f97\u305f\u3069\u306e\u7a0b
 //\u6642\u523b
 boolean flag = false;
 
-//\u73fe\u5728\u5f3e\u3044\u305f\u97f3\u306e\u756a\u53f7
-int note_number;
-
+//txt\u30d5\u30a1\u30a4\u30eb\u51fa\u529b\u306b\u5fc5\u8981\u306a\u914d\u5217
+ArrayList<String> note_number = new ArrayList<String>();
+ArrayList<String> now_number = new ArrayList<String>();
+ArrayList<String> count = new ArrayList<String>();
+ArrayList<String> result = new ArrayList<String>();
+float mill;
+int note_num;
 public void setup() {
 //\u753b\u9762
   // \u753b\u9762\u30b5\u30a4\u30ba\u3092\u6c7a\u5b9a
@@ -124,15 +128,13 @@ public void setup() {
     myBus.sendMessage(message);
   } catch(Exception e) {
   }
+ 
 }
 
 public void draw(){
  background(0);
-float mill = millis(); 
-if(flag == true){
-println("note"+(note[note_y][note_x].pointer()).MidiValue()+"note_number:"+note_number+"count"+mill);
-flag = false;
- }
+ mill = millis(); 
+
 /*
 note on/off \u6f14\u594f\u4f4d\u7f6e    \u30e6\u30fc\u30b6\u304c\u5165\u529b\u3057\u305f\u97f3\u756a\u53f7       \u97f3\u756a\u53f7\u3092\u97f3\u540d\u306b\u5909\u63db         \u30d9\u30ed\u30b7\u30c6\u30a3     \u8b5c\u9762\u4e0a\u306e\u6b63\u89e3\u97f3\u540d            \u30c7\u30fc\u30bf\u304c\u51fa\u529b\u3055\u308c\u305f\u6642\u523b
 ON      1    67                                            G5                          72                     C5                               10:32:52:0675
@@ -159,9 +161,15 @@ if (((int)(data[0] & 0xFF) >= 144)&&((int)(data[0] & 0xFF) <= 171)) {
 if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
     println();
     flag = true;
-    note_number = (int)(data[1] & 0xFF);
+    note_num = (int)(data[1] & 0xFF);
+    if(flag == true){
+    note_number.add(Integer.toString((note[note_y][note_x].pointer()).MidiValue()));
+    now_number.add(Integer.toString(note_num));
+    count.add(""+mill);
+    flag = false;
+ }
  if ((int)(data[1] & 0xFF)!=(note[note_y][note_x].pointer()).MidiValue()) {
-    note[note_y][note_x].judge = 1;      
+    note[note_y][note_x].judge = 1;    
     }
     if ((int)(data[1] & 0xFF)==(note[note_y][note_x].pointer()).MidiValue()) {
       note_x++;
@@ -170,12 +178,25 @@ if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
         note_y++;
         note_x=0;
         if (note_y>3) {
+         
           note_y=0;
         }
       }
     }
   }
 }
+
+public void keyPressed() {
+	if (key == 's' || key=='S') {	
+	//txt\u30d5\u30a1\u30a4\u30eb\u7528
+  //\u305d\u308c\u305e\u308c\u306e\u884c\u306b\u6587\u5b57\u5217\u3092\u30d5\u30a1\u30a4\u30eb\u3078\u66f8\u304d\u8fbc\u3080\u3002
+  for(int i = 0; i < count.size() ; i++){
+	result.add(note_number.get(i) + "," + now_number.get(i) + "," + count.get(i));
+}
+  saveStrings("processing_data.txt", (String[])result.toArray(new String[result.size()-1])); 
+}
+}
+
 class Pointer{
   private int midi_value;
   private int pos_x;
