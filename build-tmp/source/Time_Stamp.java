@@ -31,7 +31,7 @@ int note_y, note_x = 0;
 
 //midi\u7528
 MidiBus myBus; //The MidiBus
-int pitchbend, notebus_different=0;//note_y\u306f\u6bb5\u843d\u6570\u3001note_x\u3067\u6bb5\u843d\u5185\u306e\u4f55\u756a\u76ee\u3092\u5f3e\u3044\u3066\u3044\u308b\u304b\u7ba1\u7406
+int pitchbend, notebus_different = 0;//note_y\u306f\u6bb5\u843d\u6570\u3001note_x\u3067\u6bb5\u843d\u5185\u306e\u4f55\u756a\u76ee\u3092\u5f3e\u3044\u3066\u3044\u308b\u304b\u7ba1\u7406
 
 int channel = 0;
 int pitch = 64;
@@ -46,16 +46,18 @@ ArrayList<ScoreNote> played_note;//pitchbend\u3067\u5f97\u305f\u3069\u306e\u7a0b
 //\u6642\u523b
 boolean flag = false;
 
-
+//txt\u30d5\u30a1\u30a4\u30eb\u51fa\u529b\u306b\u5fc5\u8981\u306a\u914d\u5217
 ArrayList<String> note_number = new ArrayList<String>();
 ArrayList<String> now_number = new ArrayList<String>();
 ArrayList<String> count = new ArrayList<String>();
 ArrayList<String> note_velocity = new ArrayList<String>();
 ArrayList<String> result = new ArrayList<String>();
+ArrayList<String> pitche_bend = new ArrayList<String>();
 
-//txt\u30d5\u30a1\u30a4\u30eb\u51fa\u529b\u306b\u5fc5\u8981\u306a\u914d\u5217
 float mill;
-
+int note_num;
+int now_num;
+int note_vel;
 public void setup() {
 //\u753b\u9762
   // \u753b\u9762\u30b5\u30a4\u30ba\u3092\u6c7a\u5b9a
@@ -137,11 +139,6 @@ public void setup() {
 public void draw(){
  background(0);
  mill = millis(); 
-
-/*
-note on/off \u6f14\u594f\u4f4d\u7f6e    \u30e6\u30fc\u30b6\u304c\u5165\u529b\u3057\u305f\u97f3\u756a\u53f7       \u97f3\u756a\u53f7\u3092\u97f3\u540d\u306b\u5909\u63db         \u30d9\u30ed\u30b7\u30c6\u30a3     \u8b5c\u9762\u4e0a\u306e\u6b63\u89e3\u97f3\u540d            \u30c7\u30fc\u30bf\u304c\u51fa\u529b\u3055\u308c\u305f\u6642\u523b
-ON      1    67                                            G5                          72                     C5                               10:32:52:0675
-*/
 }
 
 //midibus\u3092\u7ba1\u7406\u3057\u3066\u3044\u308b
@@ -163,17 +160,14 @@ if (((int)(data[0] & 0xFF) >= 144)&&((int)(data[0] & 0xFF) <= 171)) {
   }
 if(((int)(data[0] & 0xFF) >= 143)&&((int)(data[0] & 0xFF) <= 150)) {
   //println("velocity:" +(int)(data[2] & 0xFF));
-  note_velocity.add(Integer.toString((int)(data[2] & 0xFF)));
+  note_vel = (int)(data[2] & 0xFF);
 }
 if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
     println();
-    flag = true;
-    if(flag == true){
-    note_number.add(Integer.toString((note[note_y][note_x].pointer()).MidiValue()));
-    now_number.add(Integer.toString((int)(data[1] & 0xFF)));
-    count.add(""+mill);
-    flag = false;
- }
+    
+    note_num = (note[note_y][note_x].pointer()).MidiValue();
+    now_num = (int)(data[1] & 0xFF);
+    
  if ((int)(data[1] & 0xFF)!=(note[note_y][note_x].pointer()).MidiValue()) {
     note[note_y][note_x].judge = 1;    
     }
@@ -190,6 +184,19 @@ if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
       }
     }
   }
+  if((int)(data[0] & 0xFF) >= 0){
+    flag = true;
+    if(flag == true){
+    note_number.add(Integer.toString(note_num));
+    now_number.add(Integer.toString(now_num));
+    count.add(""+mill);
+    note_velocity.add(Integer.toString(note_vel));
+    pitche_bend.add(Integer.toString(notebus_different));
+    
+  }
+    flag = false;
+   
+  }
 }
 
 public void keyPressed() {
@@ -197,7 +204,7 @@ public void keyPressed() {
 	//txt\u30d5\u30a1\u30a4\u30eb\u7528
   //\u305d\u308c\u305e\u308c\u306e\u884c\u306b\u6587\u5b57\u5217\u3092\u30d5\u30a1\u30a4\u30eb\u3078\u66f8\u304d\u8fbc\u3080\u3002
   for(int i = 0; i < count.size() ; i++){
-	result.add(note_number.get(i) + "," + now_number.get(i) + "," + count.get(i) + "," + note_velocity.get(i));
+	result.add(note_number.get(i) + "," + now_number.get(i) + "," + pitche_bend.get(i) + "," + note_velocity.get(i) + "," +count.get(i));
 }
   saveStrings("processing_data.txt", (String[])result.toArray(new String[result.size()-1])); 
 }

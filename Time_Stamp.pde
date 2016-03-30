@@ -10,7 +10,7 @@ int note_y, note_x = 0;
 
 //midi用
 MidiBus myBus; //The MidiBus
-int pitchbend, notebus_different=0;//note_yは段落数、note_xで段落内の何番目を弾いているか管理
+int pitchbend, notebus_different = 0;//note_yは段落数、note_xで段落内の何番目を弾いているか管理
 
 int channel = 0;
 int pitch = 64;
@@ -25,16 +25,18 @@ ArrayList<ScoreNote> played_note;//pitchbendで得たどの程度ずれている
 //時刻
 boolean flag = false;
 
-
+//txtファイル出力に必要な配列
 ArrayList<String> note_number = new ArrayList<String>();
 ArrayList<String> now_number = new ArrayList<String>();
 ArrayList<String> count = new ArrayList<String>();
 ArrayList<String> note_velocity = new ArrayList<String>();
 ArrayList<String> result = new ArrayList<String>();
+ArrayList<String> pitche_bend = new ArrayList<String>();
 
-//txtファイル出力に必要な配列
 float mill;
-
+int note_num;
+int now_num;
+int note_vel;
 void setup() {
 //画面
  fullScreen(P2D); // 画面サイズを決定
@@ -116,11 +118,6 @@ void setup() {
 void draw(){
  background(0);
  mill = millis(); 
-
-/*
-note on/off 演奏位置    ユーザが入力した音番号       音番号を音名に変換         ベロシティ     譜面上の正解音名            データが出力された時刻
-ON      1    67                                            G5                          72                     C5                               10:32:52:0675
-*/
 }
 
 //midibusを管理している
@@ -142,17 +139,14 @@ if (((int)(data[0] & 0xFF) >= 144)&&((int)(data[0] & 0xFF) <= 171)) {
   }
 if(((int)(data[0] & 0xFF) >= 143)&&((int)(data[0] & 0xFF) <= 150)) {
   //println("velocity:" +(int)(data[2] & 0xFF));
-  note_velocity.add(Integer.toString((int)(data[2] & 0xFF)));
+  note_vel = (int)(data[2] & 0xFF);
 }
 if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
     println();
-    flag = true;
-    if(flag == true){
-    note_number.add(Integer.toString((note[note_y][note_x].pointer()).MidiValue()));
-    now_number.add(Integer.toString((int)(data[1] & 0xFF)));
-    count.add(""+mill);
-    flag = false;
- }
+    
+    note_num = (note[note_y][note_x].pointer()).MidiValue();
+    now_num = (int)(data[1] & 0xFF);
+    
  if ((int)(data[1] & 0xFF)!=(note[note_y][note_x].pointer()).MidiValue()) {
     note[note_y][note_x].judge = 1;    
     }
@@ -169,6 +163,19 @@ if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
       }
     }
   }
+  if((int)(data[0] & 0xFF) >= 0){
+    flag = true;
+    if(flag == true){
+    note_number.add(Integer.toString(note_num));
+    now_number.add(Integer.toString(now_num));
+    count.add(""+mill);
+    note_velocity.add(Integer.toString(note_vel));
+    pitche_bend.add(Integer.toString(notebus_different));
+    
+  }
+    flag = false;
+   
+  }
 }
 
 void keyPressed() {
@@ -176,7 +183,7 @@ void keyPressed() {
 	//txtファイル用
   //それぞれの行に文字列をファイルへ書き込む。
   for(int i = 0; i < count.size() ; i++){
-	result.add(note_number.get(i) + "," + now_number.get(i) + "," + count.get(i) + "," + note_velocity.get(i));
+	result.add(note_number.get(i) + "," + now_number.get(i) + "," + pitche_bend.get(i) + "," + note_velocity.get(i) + "," +count.get(i));
 }
   saveStrings("processing_data.txt", (String[])result.toArray(new String[result.size()-1])); 
 }
