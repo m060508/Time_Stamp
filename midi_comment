@@ -1,0 +1,66 @@
+145 NOTE ON
+224-227 pitchbend
+129 NOTE OFF
+
+Status Byte/MIDI Command:225: 2: 114: 3: 63: 2: 114: 3: 63
+Status Byte/MIDI Command:145: 2: 69: 3: 81: 2: 69: 3: 81
+Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+Status Byte/MIDI Command:129: 2: 69: 3: 64: 2: 69: 3: 64
+
+
+
+______________________________________________________________________
+
+
+Status Byte/MIDI Command:225: 2: 14: 3: 64: 2: 14: 3: 64
+Status Byte/MIDI Command:145: 2: 69: 3: 106: 2: 69: 3: 106
+Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+
+　　Status Byte/MIDI Command:129: 2: 69: 3: 64: 2: 69: 3: 64
+
+_______________________________________________________________________
+
+
+
+　　Status Byte/MIDI Command:225: 2: 35: 3: 64: 2: 35: 3: 64
+Status Byte/MIDI Command:145: 2: 69: 3: 14: 2: 69: 3: 14
+　　Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+
+　　Status Byte/MIDI Command:129: 2: 69: 3: 64: 2: 69: 3: 64
+
+
+_______________________________________________________________________
+
+
+　　Status Byte/MIDI Command:225: 2: 43: 3: 64: 2: 43: 3: 64
+Status Byte/MIDI Command:145: 2: 69: 3: 125: 2: 69: 3: 125
+　　Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+　　Status Byte/MIDI Command:225: 2: 47: 3: 64: 2: 47: 3: 64
+
+　　Status Byte/MIDI Command:129: 2: 69: 3: 64: 2: 69: 3: 64
+
+
+_______________________________________________________________________
+
+
+　　Status Byte/MIDI Command:225: 2: 14: 3: 64: 2: 14: 3: 64
+Status Byte/MIDI Command:145: 2: 69: 3: 61: 2: 69: 3: 61
+　　Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+　　Status Byte/MIDI Command:225: 2: 65: 3: 64: 2: 65: 3: 64
+　　Status Byte/MIDI Command:129: 2: 69: 3: 64: 2: 69: 3: 64
+
+
+
+_______________________________________________________________________
+
+
+
+　　Status Byte/MIDI Command:225: 2: 14: 3: 64: 2: 14: 3: 64
+Status Byte/MIDI Command:145: 2: 69: 3: 14: 2: 69: 3: 14
+　　Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+Status Byte/MIDI Command:225: 2: 47: 3: 64: 2: 47: 3: 64
+Status Byte/MIDI Command:225: 2: 0: 3: 64: 2: 0: 3: 64
+Status Byte/MIDI Command:225: 2: 65: 3: 64: 2: 65: 3: 64
+Status Byte/MIDI Command:225: 2: 121: 3: 63: 2: 121: 3: 63
+Status Byte/MIDI Command:225: 2: 35: 3: 65: 2: 35: 3: 65
+Status Byte/MIDI Command:129: 2: 69: 3: 64: 2: 69: 3: 64

@@ -50,6 +50,7 @@ boolean flag = false;
 ArrayList<String> note_number = new ArrayList<String>();
 ArrayList<String> now_number = new ArrayList<String>();
 ArrayList<String> count = new ArrayList<String>();
+ArrayList<String> note_velocity = new ArrayList<String>();
 ArrayList<String> result = new ArrayList<String>();
 float mill;
 int note_num;
@@ -158,13 +159,18 @@ if (((int)(data[0] & 0xFF) >= 144)&&((int)(data[0] & 0xFF) <= 171)) {
     notebus_different=((data[1] & 0xFF)-(note[note_y][note_x].pointer()).MidiValue())*333+pitchbend-8192;
     note[note_y][note_x].addNote(notebus_different);
   }
+if(((int)(data[0] & 0xFF) >= 143)&&((int)(data[0] & 0xFF) <= 150)) {
+  //println("velocity:" +(int)(data[2] & 0xFF));
+  note_velocity.add(Integer.toString((int)(data[2] & 0xFF)));
+}
 if (((int)(data[0] & 0xFF) >= 128)&&((int)(data[0] & 0xFF) <= 131)) {
     println();
     flag = true;
     note_num = (int)(data[1] & 0xFF);
+
     if(flag == true){
     note_number.add(Integer.toString((note[note_y][note_x].pointer()).MidiValue()));
-    now_number.add(Integer.toString(note_num));
+    now_number.add(Integer.toString((int)(data[1] & 0xFF)));
     count.add(""+mill);
     flag = false;
  }
@@ -191,7 +197,7 @@ public void keyPressed() {
 	//txt\u30d5\u30a1\u30a4\u30eb\u7528
   //\u305d\u308c\u305e\u308c\u306e\u884c\u306b\u6587\u5b57\u5217\u3092\u30d5\u30a1\u30a4\u30eb\u3078\u66f8\u304d\u8fbc\u3080\u3002
   for(int i = 0; i < count.size() ; i++){
-	result.add(note_number.get(i) + "," + now_number.get(i) + "," + count.get(i));
+	result.add(note_number.get(i) + "," + now_number.get(i) + "," + count.get(i) + "," + note_velocity.get(i));
 }
   saveStrings("processing_data.txt", (String[])result.toArray(new String[result.size()-1])); 
 }
